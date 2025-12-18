@@ -6,3 +6,5 @@ public interface StudentService {
 
     Stuentity saveStudent(Stuentity stuentity);
 }
+
+
