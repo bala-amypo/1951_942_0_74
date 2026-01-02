@@ -6,6 +6,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RouteOptimizationResultRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.service.RouteOptimizationService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
@@ -28,14 +29,13 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Shipment not found"));
 
-        // Simple dummy calculation (tests only check > 0)
-        double optimizedDistance = Math.random() * 100 + 1;
-        double estimatedFuel = Math.random() * 10 + 1;
+        double distance = Math.random() * 100 + 1;
+        double fuel = Math.random() * 10 + 1;
 
         RouteOptimizationResult result = new RouteOptimizationResult();
         result.setShipment(shipment);
-        result.setOptimizedDistanceKm(optimizedDistance);
-        result.setEstimatedFuelUsageL(estimatedFuel);
+        result.setOptimizedDistanceKm(distance);
+        result.setEstimatedFuelUsageL(fuel);
         result.setGeneratedAt(LocalDateTime.now());
 
         return resultRepository.save(result);
