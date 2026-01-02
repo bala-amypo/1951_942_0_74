@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 )
                 // In-built platform URL (DO NOT CHANGE)
                 .servers(List.of(
-                        new Server().url("https://9084.pro604cr.amypo.ai/")
+                        new Server().url("https://9252.408procr.amypo.ai/")
                 ))
                 // JWT support in Swagger
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
