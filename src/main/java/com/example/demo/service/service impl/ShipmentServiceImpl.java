@@ -8,9 +8,11 @@ import com.example.demo.repository.LocationRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.ShipmentService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+@Service
 public class ShipmentServiceImpl implements ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
@@ -29,18 +31,15 @@ public class ShipmentServiceImpl implements ShipmentService {
     public Shipment createShipment(Long vehicleId, Shipment shipment) {
 
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Vehicle not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
 
         Location pickup = locationRepository.findById(
-                shipment.getPickupLocation().getId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Location not found"));
+                shipment.getPickupLocation().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
 
         Location drop = locationRepository.findById(
-                shipment.getDropLocation().getId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Location not found"));
+                shipment.getDropLocation().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
 
         if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
             throw new IllegalArgumentException("Weight exceeds vehicle capacity");
@@ -60,7 +59,6 @@ public class ShipmentServiceImpl implements ShipmentService {
     @Override
     public Shipment getShipment(Long shipmentId) {
         return shipmentRepository.findById(shipmentId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Shipment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
     }
 }
