@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Location;
 import com.example.demo.repository.LocationRepository;
 import com.example.demo.service.LocationService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +20,8 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public Location createLocation(Location location) {
 
-        if (location.getLatitude() == null ||
-            location.getLatitude() < -90 || location.getLatitude() > 90) {
-            throw new IllegalArgumentException("Invalid latitude value");
+        if (location.getLatitude() < -90 || location.getLatitude() > 90) {
+            throw new IllegalArgumentException("Latitude invalid");
         }
 
         return locationRepository.save(location);

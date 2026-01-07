@@ -6,6 +6,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RouteOptimizationResultRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.service.RouteOptimizationService;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,8 +17,9 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
     private final ShipmentRepository shipmentRepository;
     private final RouteOptimizationResultRepository resultRepository;
 
-    public RouteOptimizationServiceImpl(ShipmentRepository shipmentRepository,
-                                        RouteOptimizationResultRepository resultRepository) {
+    public RouteOptimizationServiceImpl(
+            ShipmentRepository shipmentRepository,
+            RouteOptimizationResultRepository resultRepository) {
         this.shipmentRepository = shipmentRepository;
         this.resultRepository = resultRepository;
     }
@@ -29,21 +31,20 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Shipment not found"));
 
-        double distance = Math.random() * 100 + 1;
-        double fuel = Math.random() * 10 + 1;
-
-        RouteOptimizationResult result = new RouteOptimizationResult();
-        result.setShipment(shipment);
-        result.setOptimizedDistanceKm(distance);
-        result.setEstimatedFuelUsageL(fuel);
-        result.setGeneratedAt(LocalDateTime.now());
+        RouteOptimizationResult result =
+                RouteOptimizationResult.builder()
+                        .shipment(shipment)
+                        .optimizedDistanceKm(100.0)
+                        .estimatedFuelUsageL(5.0)
+                        .generatedAt(LocalDateTime.now())
+                        .build();
 
         return resultRepository.save(result);
     }
 
     @Override
-    public RouteOptimizationResult getResult(Long resultId) {
-        return resultRepository.findById(resultId)
+    public RouteOptimizationResult getResult(Long id) {
+        return resultRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Result not found"));
     }

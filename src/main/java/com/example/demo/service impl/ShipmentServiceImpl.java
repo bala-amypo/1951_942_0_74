@@ -8,6 +8,7 @@ import com.example.demo.repository.LocationRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.ShipmentService;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,23 +32,21 @@ public class ShipmentServiceImpl implements ShipmentService {
     public Shipment createShipment(Long vehicleId, Shipment shipment) {
 
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
-                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
-
-        Location pickup = locationRepository.findById(
-                shipment.getPickupLocation().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
-
-        Location drop = locationRepository.findById(
-                shipment.getDropLocation().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Vehicle not found"));
 
         if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
-            throw new IllegalArgumentException("Weight exceeds vehicle capacity");
+            throw new IllegalArgumentException("Weight exceeds capacity");
         }
 
         if (shipment.getScheduledDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Date cannot be in the past");
+            throw new IllegalArgumentException("Past date");
         }
+
+        Location pickup = locationRepository.findById(
+                shipment.getPickupLocation().getId()).get();
+        Location drop = locationRepository.findById(
+                shipment.getDropLocation().getId()).get();
 
         shipment.setVehicle(vehicle);
         shipment.setPickupLocation(pickup);
@@ -57,8 +56,9 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public Shipment getShipment(Long shipmentId) {
-        return shipmentRepository.findById(shipmentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
+    public Shipment getShipment(Long id) {
+        return shipmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Shipment not found"));
     }
 }
