@@ -2,23 +2,14 @@ package com.example.demo.dto;
 
 public class ApiResponse {
 
-    private boolean success;
     private String message;
+    private Object data;
 
-    public ApiResponse() {
-    }
+    public ApiResponse() {}
 
-    public ApiResponse(boolean success, String message) {
-        this.success = success;
+    public ApiResponse(String message, Object data) {
         this.message = message;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
+        this.data = data;
     }
 
     public String getMessage() {
@@ -27,5 +18,13 @@ public class ApiResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

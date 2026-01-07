@@ -1,41 +1,26 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "vehicles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "vehicleNumber")
-})
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String vehicleNumber;
 
     private Double capacityKg;
+
     private Double fuelEfficiency;
 
-    public Vehicle() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public String getVehicleNumber() { return vehicleNumber; }
-    public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
-
-    public Double getCapacityKg() { return capacityKg; }
-    public void setCapacityKg(Double capacityKg) { this.capacityKg = capacityKg; }
-
-    public Double getFuelEfficiency() { return fuelEfficiency; }
-    public void setFuelEfficiency(Double fuelEfficiency) { this.fuelEfficiency = fuelEfficiency; }
+    @ManyToOne
+    private User user;
 }
